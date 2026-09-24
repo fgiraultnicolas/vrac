@@ -36,12 +36,12 @@ int	main(int argc, char **argv)
 {
 	int	i;
 
-	i = 1;
-	while (i < argc)
+	i = argc - 1;
+	while (i > 0)
 	{
 		ft_putstr(argv[i]);
 		write(1, "\n", 1);
-		i++;
+		i--;
 	}
 	return (0);
 }

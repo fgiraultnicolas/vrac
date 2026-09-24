@@ -35,13 +35,30 @@ void	ft_putstr(char *str)
 int	main(int argc, char **argv)
 {
 	int	i;
+	int	j;
+	int	tmp;
 
-	i = 1;
+	i = 2;
+	j = 1;
 	while (i < argc)
 	{
-		ft_putstr(argv[i]);
-		write(1, "\n", 1);
+		while (j < i)
+		{
+			if (*argv[j + 1] < *argv[j])
+			{
+				tmp = *argv[j];
+				*argv[j] = *argv[j + 1];
+				*argv[j + 1] = tmp;
+			}
+			j++;
+		}
 		i++;
+	}
+	while (**argv != '\0')
+	{
+		ft_putstr(*argv);
+		write(1, "\n", 1);
+		argv++;
 	}
 	return (0);
 }
