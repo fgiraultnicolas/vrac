@@ -6,58 +6,81 @@
 /*   By: fgirault <fgirault@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/09/25 12:00:31 by fgirault          #+#    #+#             */
-/*   Updated: 2026/09/25 12:29:59 by fgirault         ###   ########.fr       */
+/*   Updated: 2026/09/28 17:30:18 by fgirault         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdio.h>
 
-char *ft_strjoin(int size, char **strs, char *sep)
+int	len(int i, int j, int size, char **strs)
 {
-	char	*dest;
-	int	i;
-	int	j;
 	int	count;
 
-	j = 0;
 	count = 0;
-	while (j <= size)
+	while (j < size)
 	{
 		i = 0;
-		while (*strs[i] != '\0')
+		while (strs[j][i] != '\0')
 		{
 			i++;
 			count++;
 		}
 		j++;
-		strs++;
 	}
-	dest = malloc(sizeof(char) * (count + size - 1));
-	j = 0;
-	while (j <= size)
+	return (count);
+}
+
+char	*modified_strcpy_sep(char *dest, char *sep)
+{
+	while (*sep != '\0')
 	{
-		i = 0;
-		while (*strs[i] != '\0')
-		{
-			i++;
-			*dest = **strs;
-			dest++;
-		}
 		*dest = *sep;
+		dest++;
+		sep++;
+	}
+	return  (dest);
+}
+
+char	*modified_strcpy(char *dest, char **strs, int j)
+{
+	int	i;
+
+	i = 0;
+	while (strs[j][i] != '\0')
+	{
+		*dest = strs[j][i];
+		i++;
+		dest++;
+	}
+	return (dest);
+}
+char	*ft_strjoin(int size, char **strs, char *sep)
+{
+	char	*dest;
+	int		j;
+	int		count;
+
+	if (size == 0)
+	{
+		dest = malloc(sizeof(char));
+		return (dest);
+	}
+	count = len(0, 0, size, strs);
+	dest = malloc(sizeof(char) * (count + (size - 1) * len(0, 0, 1, &sep) + 1));
+	j = 0;
+	while (j < size)
+	{
+		dest = modified_strcpy(dest, strs, j);
+		dest = modified_strcpy_sep(dest, sep);
 		j++;
-		strs++;
 	}
 	return (dest);
 }
 
-int	main(void)
+int	main(int argc, char **argv)
 {
-	char	strs[3][6];
-
-	*strs[0] = "test1";
-	*strs[1] = "test2";
-	*strs[2] = "test3";
-	printf("%s\n", *ft_strcat(3, strs, " "));
+	argv++;
+	printf("%s\n", ft_strjoin(argc - 1, argv, "|"));
 	return (0);
 }
