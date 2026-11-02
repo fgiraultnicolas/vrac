@@ -1,0 +1,24 @@
+# logo + date/heure en vert
+show_banner() {
+  cat ~/.thunderdome.txt
+  printf '\e[32m%s\e[0m\n' "$(date +"%m/%d/%Y%n%H:%M:%S")"
+}
+
+clear() { command clear; show_banner; }
+alias cls='clear'
+
+_clear_banner() { command clear; show_banner; zle reset-prompt; }
+zle -N _clear_banner
+bindkey '^L' _clear_banner
+
+
+# horloge, batterie, son, Bluetooth, Wi-Fi (aide : tape "aide")
+source ~/.zsh_dashboard.zsh
+unalias gg 2>/dev/null
+gg() {
+  if [ $# -eq 0 ]; then
+    xdg-open "https://www.google.com" >/dev/null 2>&1
+  else
+    xdg-open "https://www.google.com/search?q=$(python3 -c 'import sys,urllib.parse as u;print(u.quote_plus(" ".join(sys.argv[1:])))' "$@")" >/dev/null 2>&1
+  fi
+}
